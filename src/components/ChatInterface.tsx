@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
@@ -127,12 +126,12 @@ const ChatInterface = () => {
   };
 
   return (
-    <div className="flex flex-col h-screen max-w-4xl mx-auto bg-white">
+    <div className="flex flex-col h-screen max-w-4xl mx-auto bg-background">
       {/* Header */}
-      <div className="flex items-center gap-3 p-4 border-b bg-gradient-to-r from-blue-50 to-indigo-50">
+      <div className="flex items-center gap-3 p-4 border-b border-border bg-card/50 backdrop-blur-sm">
         <div className="flex items-center gap-2">
-          <FileSpreadsheet className="w-6 h-6 text-blue-600" />
-          <h1 className="text-xl font-semibold text-gray-800">A/B Test Sheet Assistant</h1>
+          <FileSpreadsheet className="w-6 h-6 text-primary" />
+          <h1 className="text-xl font-semibold text-foreground">A/B Test Sheet Assistant</h1>
         </div>
       </div>
 
@@ -145,29 +144,29 @@ const ChatInterface = () => {
               className={`flex gap-3 ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}
             >
               {message.type === 'bot' && (
-                <div className="flex-shrink-0 w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-                  <Bot className="w-4 h-4 text-blue-600" />
+                <div className="flex-shrink-0 w-8 h-8 bg-muted rounded-full flex items-center justify-center">
+                  <Bot className="w-4 h-4 text-muted-foreground" />
                 </div>
               )}
               
               <Card className={`max-w-[80%] p-4 ${
                 message.type === 'user' 
-                  ? 'bg-blue-600 text-white border-blue-600' 
-                  : 'bg-gray-50 border-gray-200'
+                  ? 'bg-primary text-primary-foreground border-primary/20' 
+                  : 'bg-card border-border'
               }`}>
                 <div className="whitespace-pre-wrap text-sm leading-relaxed">
                   {message.content}
                 </div>
                 <div className={`text-xs mt-2 ${
-                  message.type === 'user' ? 'text-blue-100' : 'text-gray-500'
+                  message.type === 'user' ? 'text-primary-foreground/70' : 'text-muted-foreground'
                 }`}>
                   {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                 </div>
               </Card>
 
               {message.type === 'user' && (
-                <div className="flex-shrink-0 w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
-                  <User className="w-4 h-4 text-white" />
+                <div className="flex-shrink-0 w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+                  <User className="w-4 h-4 text-primary-foreground" />
                 </div>
               )}
             </div>
@@ -175,17 +174,17 @@ const ChatInterface = () => {
           
           {isLoading && (
             <div className="flex gap-3 justify-start">
-              <div className="flex-shrink-0 w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-                <Bot className="w-4 h-4 text-blue-600" />
+              <div className="flex-shrink-0 w-8 h-8 bg-muted rounded-full flex items-center justify-center">
+                <Bot className="w-4 h-4 text-muted-foreground" />
               </div>
-              <Card className="bg-gray-50 border-gray-200 p-4">
+              <Card className="bg-card border-border p-4">
                 <div className="flex items-center gap-2">
                   <div className="flex space-x-1">
-                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                    <div className="w-2 h-2 bg-muted-foreground rounded-full animate-bounce"></div>
+                    <div className="w-2 h-2 bg-muted-foreground rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                    <div className="w-2 h-2 bg-muted-foreground rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
                   </div>
-                  <span className="text-sm text-gray-600">Processing...</span>
+                  <span className="text-sm text-muted-foreground">Processing...</span>
                 </div>
               </Card>
             </div>
@@ -194,7 +193,7 @@ const ChatInterface = () => {
       </ScrollArea>
 
       {/* Input Area */}
-      <div className="border-t bg-white p-4">
+      <div className="border-t border-border bg-card/50 backdrop-blur-sm p-4">
         <div className="flex gap-2 items-end">
           <div className="flex-1">
             <Textarea
@@ -208,19 +207,19 @@ const ChatInterface = () => {
                   ? "Choose a sheet by name or number..."
                   : "Type your message..."
               }
-              className="min-h-[60px] max-h-[120px] resize-none"
+              className="min-h-[60px] max-h-[120px] resize-none bg-input border-border text-foreground placeholder:text-muted-foreground"
               disabled={isLoading}
             />
           </div>
           <Button
             onClick={handleSendMessage}
             disabled={!inputValue.trim() || isLoading}
-            className="h-[60px] px-4 bg-blue-600 hover:bg-blue-700"
+            className="h-[60px] px-4 bg-primary hover:bg-primary/90 text-primary-foreground"
           >
             <Send className="w-4 h-4" />
           </Button>
         </div>
-        <div className="text-xs text-gray-500 mt-2 text-center">
+        <div className="text-xs text-muted-foreground mt-2 text-center">
           Press Enter to send, Shift+Enter for new line
         </div>
       </div>
