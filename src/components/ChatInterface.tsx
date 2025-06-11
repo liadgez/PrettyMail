@@ -189,30 +189,6 @@ const ChatInterface = () => {
         </div>
       </div>
 
-      {/* Mode Selector */}
-      <div className="flex gap-2 p-4 bg-background border-b border-border/50">
-        {[
-          { mode: 'analysis' as Mode, label: 'Analysis', icon: <BarChart3 className="w-4 h-4" /> },
-          { mode: 'creative' as Mode, label: 'Creative', icon: <Lightbulb className="w-4 h-4" /> },
-          { mode: 'strategy' as Mode, label: 'Strategy', icon: <Target className="w-4 h-4" /> }
-        ].map(({ mode, label, icon }) => (
-          <Button
-            key={mode}
-            variant={currentMode === mode ? "default" : "outline"}
-            size="sm"
-            onClick={() => selectMode(mode)}
-            className={`flex-1 gap-2 ${
-              currentMode === mode 
-                ? 'bg-primary text-primary-foreground' 
-                : 'bg-background hover:bg-accent border-border'
-            }`}
-          >
-            {icon}
-            {label}
-          </Button>
-        ))}
-      </div>
-
       {/* Quick Actions */}
       <div className="px-4 py-2 bg-background">
         <Button
@@ -282,7 +258,31 @@ const ChatInterface = () => {
         </div>
       </ScrollArea>
 
-      {/* Input Area */}
+      {/* Mode Selector - Moved above input */}
+      <div className="flex gap-2 px-4 py-3 bg-background border-t border-border/50">
+        {[
+          { mode: 'analysis' as Mode, label: 'Analysis', icon: <BarChart3 className="w-4 h-4" /> },
+          { mode: 'creative' as Mode, label: 'Creative', icon: <Lightbulb className="w-4 h-4" /> },
+          { mode: 'strategy' as Mode, label: 'Strategy', icon: <Target className="w-4 h-4" /> }
+        ].map(({ mode, label, icon }) => (
+          <Button
+            key={mode}
+            variant={currentMode === mode ? "default" : "outline"}
+            size="sm"
+            onClick={() => selectMode(mode)}
+            className={`flex-1 gap-2 ${
+              currentMode === mode 
+                ? 'bg-primary text-primary-foreground' 
+                : 'bg-background hover:bg-accent border-border'
+            }`}
+          >
+            {icon}
+            {label}
+          </Button>
+        ))}
+      </div>
+
+      {/* Input Area - Enlarged */}
       <div className="border-t border-border bg-card/50 backdrop-blur-sm p-4">
         <div className="flex gap-2 items-end">
           <div className="flex-1">
@@ -291,14 +291,14 @@ const ChatInterface = () => {
               onChange={(e) => setInputValue(e.target.value)}
               onKeyPress={handleKeyPress}
               placeholder={updatePlaceholder(currentMode)}
-              className="min-h-[60px] max-h-[120px] resize-none bg-input border-border text-foreground placeholder:text-muted-foreground"
+              className="min-h-[120px] max-h-[200px] resize-none bg-input border-border text-foreground placeholder:text-muted-foreground"
               disabled={isLoading}
             />
           </div>
           <Button
             onClick={handleSendMessage}
             disabled={!inputValue.trim() || isLoading}
-            className="h-[60px] px-4 bg-primary hover:bg-primary/90 text-primary-foreground"
+            className="h-[120px] px-4 bg-primary hover:bg-primary/90 text-primary-foreground"
           >
             <Send className="w-4 h-4" />
           </Button>
