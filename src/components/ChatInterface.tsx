@@ -1,9 +1,10 @@
+
 import React, { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Card } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Send, Bot, User, Search, FileSpreadsheet } from 'lucide-react';
+import { Send, Bot, User, FileSpreadsheet, BarChart3, Lightbulb, Target } from 'lucide-react';
 
 interface Message {
   id: string;
@@ -18,11 +19,13 @@ interface ChatStep {
   currentPrompt?: string;
 }
 
+type Mode = 'analysis' | 'creative' | 'strategy' | '';
+
 const ChatInterface = () => {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
-      content: "Hello! I'm your A/B Test Sheet Assistant. What would you like to search for? For example: 'show all tests with over 500 impressions'",
+      content: "Select a mode above, then ask me to search or analyze your A/B test data.",
       type: 'bot',
       timestamp: new Date()
     }
@@ -31,6 +34,7 @@ const ChatInterface = () => {
   const [inputValue, setInputValue] = useState('');
   const [chatStep, setChatStep] = useState<ChatStep>({ step: 'initial' });
   const [isLoading, setIsLoading] = useState(false);
+  const [currentMode, setCurrentMode] = useState<Mode>('');
   const scrollAreaRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -49,8 +53,26 @@ const ChatInterface = () => {
     setMessages(prev => [...prev, newMessage]);
   };
 
+  const selectMode = (mode: Mode) => {
+    setCurrentMode(mode);
+    updatePlaceholder(mode);
+  };
+
+  const updatePlaceholder = (mode: Mode) => {
+    const placeholders = {
+      analysis: 'Ask your analysis question...',
+      creative: 'Ask your creative question...',
+      strategy: 'Ask your strategy question...',
+      '': 'Choose a mode first...'
+    };
+    return placeholders[mode];
+  };
+
+  const quickInsert = (text: string) => {
+    setInputValue(text);
+  };
+
   const simulateSheetSearch = (prompt: string) => {
-    // Simulating the Google Sheets API call
     setIsLoading(true);
     
     setTimeout(() => {
@@ -89,32 +111,55 @@ const ChatInterface = () => {
     }, 2000);
   };
 
+  const handleAiPrompt = (prompt: string, mode: Mode) => {
+    setIsLoading(true);
+    
+    setTimeout(() => {
+      const responses = {
+        creative: `🎨 Creative Response: Here are some innovative ideas for your A/B test:\n\n• Try bold, contrasting colors for your CTA buttons\n• Experiment with personalized headlines using user data\n• Test emotional vs. rational messaging approaches\n• Consider using urgency indicators like countdown timers\n\nWould you like me to elaborate on any of these creative strategies?`,
+        strategy: `🎯 Strategic Analysis: Based on best practices, here's my strategic recommendation:\n\n• Focus on high-impact elements first (headlines, CTAs)\n• Run tests for at least 2 weeks to account for weekly patterns\n• Ensure statistical significance (95% confidence level)\n• Consider seasonal factors in your test timing\n• Document all learnings for future reference\n\nWould you like specific strategic guidance for your current tests?`
+      };
+      
+      addMessage(responses[mode as keyof typeof responses] || 'I can help with that!', 'bot');
+      setIsLoading(false);
+    }, 1500);
+  };
+
   const handleSendMessage = () => {
     if (!inputValue.trim() || isLoading) return;
+
+    if (!currentMode) {
+      addMessage('Please select a mode first (Analysis, Creative, or Strategy).', 'bot');
+      return;
+    }
 
     addMessage(inputValue, 'user');
     const userInput = inputValue.trim();
     setInputValue('');
 
-    if (chatStep.step === 'initial') {
-      simulateSheetSearch(userInput);
-    } else if (chatStep.step === 'sheet-selection') {
-      const { availableSheets, currentPrompt } = chatStep;
-      const sheetIndex = parseInt(userInput) - 1;
-      
-      let selectedSheet: string;
-      if (!isNaN(sheetIndex) && sheetIndex >= 0 && sheetIndex < (availableSheets?.length || 0)) {
-        selectedSheet = availableSheets![sheetIndex];
-      } else if (availableSheets?.includes(userInput)) {
-        selectedSheet = userInput;
-      } else {
-        addMessage("I couldn't find that sheet. Please try again with a valid sheet name or number.", 'bot');
-        return;
-      }
+    if (currentMode === 'analysis') {
+      if (chatStep.step === 'initial') {
+        simulateSheetSearch(userInput);
+      } else if (chatStep.step === 'sheet-selection') {
+        const { availableSheets, currentPrompt } = chatStep;
+        const sheetIndex = parseInt(userInput) - 1;
+        
+        let selectedSheet: string;
+        if (!isNaN(sheetIndex) && sheetIndex >= 0 && sheetIndex < (availableSheets?.length || 0)) {
+          selectedSheet = availableSheets![sheetIndex];
+        } else if (availableSheets?.includes(userInput)) {
+          selectedSheet = userInput;
+        } else {
+          addMessage("I couldn't find that sheet. Please try again with a valid sheet name or number.", 'bot');
+          return;
+        }
 
-      addMessage(`Great! Searching in "${selectedSheet}" for: "${currentPrompt}"`, 'bot');
-      setChatStep({ step: 'searching' });
-      simulateSheetDataSearch(selectedSheet, currentPrompt!);
+        addMessage(`Great! Searching in "${selectedSheet}" for: "${currentPrompt}"`, 'bot');
+        setChatStep({ step: 'searching' });
+        simulateSheetDataSearch(selectedSheet, currentPrompt!);
+      }
+    } else {
+      handleAiPrompt(userInput, currentMode);
     }
   };
 
@@ -122,6 +167,15 @@ const ChatInterface = () => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       handleSendMessage();
+    }
+  };
+
+  const getModeIcon = (mode: Mode) => {
+    switch (mode) {
+      case 'analysis': return <BarChart3 className="w-4 h-4" />;
+      case 'creative': return <Lightbulb className="w-4 h-4" />;
+      case 'strategy': return <Target className="w-4 h-4" />;
+      default: return null;
     }
   };
 
@@ -133,6 +187,42 @@ const ChatInterface = () => {
           <FileSpreadsheet className="w-6 h-6 text-primary" />
           <h1 className="text-xl font-semibold text-foreground">A/B Test Sheet Assistant</h1>
         </div>
+      </div>
+
+      {/* Mode Selector */}
+      <div className="flex gap-2 p-4 bg-background border-b border-border/50">
+        {[
+          { mode: 'analysis' as Mode, label: 'Analysis', icon: <BarChart3 className="w-4 h-4" /> },
+          { mode: 'creative' as Mode, label: 'Creative', icon: <Lightbulb className="w-4 h-4" /> },
+          { mode: 'strategy' as Mode, label: 'Strategy', icon: <Target className="w-4 h-4" /> }
+        ].map(({ mode, label, icon }) => (
+          <Button
+            key={mode}
+            variant={currentMode === mode ? "default" : "outline"}
+            size="sm"
+            onClick={() => selectMode(mode)}
+            className={`flex-1 gap-2 ${
+              currentMode === mode 
+                ? 'bg-primary text-primary-foreground' 
+                : 'bg-background hover:bg-accent border-border'
+            }`}
+          >
+            {icon}
+            {label}
+          </Button>
+        ))}
+      </div>
+
+      {/* Quick Actions */}
+      <div className="px-4 py-2 bg-background">
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => quickInsert('What can you do for me?')}
+          className="text-muted-foreground hover:text-foreground text-sm"
+        >
+          💡 General capabilities
+        </Button>
       </div>
 
       {/* Messages Area */}
@@ -200,13 +290,7 @@ const ChatInterface = () => {
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               onKeyPress={handleKeyPress}
-              placeholder={
-                chatStep.step === 'initial' 
-                  ? "Ask me to search for A/B test data..."
-                  : chatStep.step === 'sheet-selection'
-                  ? "Choose a sheet by name or number..."
-                  : "Type your message..."
-              }
+              placeholder={updatePlaceholder(currentMode)}
               className="min-h-[60px] max-h-[120px] resize-none bg-input border-border text-foreground placeholder:text-muted-foreground"
               disabled={isLoading}
             />
@@ -220,7 +304,7 @@ const ChatInterface = () => {
           </Button>
         </div>
         <div className="text-xs text-muted-foreground mt-2 text-center">
-          Press Enter to send, Shift+Enter for new line
+          {currentMode ? `${currentMode.charAt(0).toUpperCase() + currentMode.slice(1)} mode selected` : 'Choose a mode'} • Press Enter to send
         </div>
       </div>
     </div>
