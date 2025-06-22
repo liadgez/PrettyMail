@@ -14,7 +14,8 @@ interface LayoutStyle {
   description: string;
   cssInline: string;
   supportsDarkMode: boolean;
-  thumbnail: string;
+  thumbnail: React.ReactNode;
+  preview: string;
 }
 
 export const useEmailDrafter = () => {
@@ -24,39 +25,69 @@ export const useEmailDrafter = () => {
   const [isCreatingDraft, setIsCreatingDraft] = useState(false);
   const [drafts, setDrafts] = useState<EmailDraft[]>([]);
 
-  // Mock layout styles for MVP
+  // Improved layout styles with better names and visual indicators
   const layoutStyles: LayoutStyle[] = [
     {
-      id: 'minimal',
-      name: 'Minimal',
-      description: 'Clean and simple',
-      cssInline: 'font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.6; color: #333; max-width: 600px;',
+      id: 'big-title',
+      name: 'Big Title',
+      description: 'Large header with emphasis',
+      cssInline: 'font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.6; color: #333; max-width: 600px; font-size: 18px; font-weight: 600;',
       supportsDarkMode: true,
-      thumbnail: '📄'
+      thumbnail: (
+        <div className="flex flex-col items-center gap-1">
+          <div className="w-8 h-2 bg-gray-800 rounded"></div>
+          <div className="w-6 h-1 bg-gray-400 rounded"></div>
+          <div className="w-7 h-1 bg-gray-400 rounded"></div>
+        </div>
+      ),
+      preview: 'Bold header style with larger text'
     },
     {
-      id: 'professional',
-      name: 'Professional',
-      description: 'Business formal',
+      id: 'underlined-sections',
+      name: 'Underlined Sections',
+      description: 'Clean sections with dividers',
       cssInline: 'font-family: Georgia, serif; line-height: 1.8; color: #2c3e50; max-width: 650px; padding: 20px; border-left: 4px solid #3498db;',
       supportsDarkMode: false,
-      thumbnail: '💼'
+      thumbnail: (
+        <div className="flex flex-col items-center gap-1">
+          <div className="w-7 h-1 bg-blue-600 rounded"></div>
+          <div className="w-8 h-1 bg-gray-600 rounded"></div>
+          <div className="w-6 h-0.5 bg-blue-300 rounded"></div>
+          <div className="w-7 h-1 bg-gray-600 rounded"></div>
+        </div>
+      ),
+      preview: 'Professional sections with accent borders'
     },
     {
-      id: 'friendly',
-      name: 'Friendly',
-      description: 'Warm and approachable',
-      cssInline: 'font-family: "Comic Sans MS", cursive, sans-serif; line-height: 1.7; color: #e67e22; max-width: 580px; background: #fef9e7; padding: 15px; border-radius: 8px;',
-      supportsDarkMode: false,
-      thumbnail: '😊'
-    },
-    {
-      id: 'modern',
-      name: 'Modern',
-      description: 'Contemporary style',
-      cssInline: 'font-family: "Helvetica Neue", Arial, sans-serif; line-height: 1.5; color: #34495e; max-width: 620px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 25px; border-radius: 12px;',
+      id: 'compact',
+      name: 'Compact',
+      description: 'Dense, space-efficient layout',
+      cssInline: 'font-family: "Helvetica Neue", Arial, sans-serif; line-height: 1.4; color: #444; max-width: 580px; font-size: 14px;',
       supportsDarkMode: true,
-      thumbnail: '🎨'
+      thumbnail: (
+        <div className="flex flex-col items-center gap-0.5">
+          <div className="w-8 h-1 bg-gray-700 rounded"></div>
+          <div className="w-7 h-1 bg-gray-700 rounded"></div>
+          <div className="w-6 h-1 bg-gray-700 rounded"></div>
+          <div className="w-8 h-1 bg-gray-700 rounded"></div>
+        </div>
+      ),
+      preview: 'Tight spacing for concise emails'
+    },
+    {
+      id: 'classic-block',
+      name: 'Classic Block',
+      description: 'Traditional email formatting',
+      cssInline: 'font-family: "Times New Roman", serif; line-height: 1.6; color: #333; max-width: 600px; font-size: 16px;',
+      supportsDarkMode: true,
+      thumbnail: (
+        <div className="flex flex-col items-center gap-1">
+          <div className="w-8 h-3 bg-gray-200 border border-gray-400 rounded"></div>
+          <div className="w-6 h-1 bg-gray-600 rounded"></div>
+          <div className="w-7 h-1 bg-gray-600 rounded"></div>
+        </div>
+      ),
+      preview: 'Standard block format with serif font'
     }
   ];
 

@@ -28,7 +28,21 @@ const PreviewPane = ({ content, previewStyle }: PreviewPaneProps) => {
       if (property && value) {
         // Convert kebab-case to camelCase for React
         const camelProperty = property.replace(/-([a-z])/g, (match, letter) => letter.toUpperCase());
-        styleObject[camelProperty as keyof React.CSSProperties] = value;
+        
+        // Only add properties that React CSSProperties supports
+        const validProperties = [
+          'fontFamily', 'fontSize', 'fontWeight', 'fontStyle',
+          'lineHeight', 'color', 'backgroundColor', 'background',
+          'padding', 'paddingTop', 'paddingBottom', 'paddingLeft', 'paddingRight',
+          'margin', 'marginTop', 'marginBottom', 'marginLeft', 'marginRight',
+          'border', 'borderLeft', 'borderRight', 'borderTop', 'borderBottom',
+          'borderRadius', 'textAlign', 'textDecoration',
+          'maxWidth', 'width', 'height', 'minHeight'
+        ];
+        
+        if (validProperties.includes(camelProperty)) {
+          (styleObject as any)[camelProperty] = value;
+        }
       }
     });
     
