@@ -1,8 +1,8 @@
 
-import ChatInterface from "@/components/ChatInterface";
+import EmailDrafterInterface from "@/components/EmailDrafterInterface";
 
 const Index = () => {
-  return <ChatInterface />;
+  return <EmailDrafterInterface />;
 };
 
 export default Index;
