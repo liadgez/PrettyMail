@@ -19,6 +19,22 @@ const PreviewPane = ({ content, previewStyle }: PreviewPaneProps) => {
       .join('');
   };
 
+  const parseCssString = (cssString: string) => {
+    const styleObject: React.CSSProperties = {};
+    
+    // Split by semicolon and parse each CSS property
+    cssString.split(';').forEach(rule => {
+      const [property, value] = rule.split(':').map(s => s.trim());
+      if (property && value) {
+        // Convert kebab-case to camelCase for React
+        const camelProperty = property.replace(/-([a-z])/g, (match, letter) => letter.toUpperCase());
+        styleObject[camelProperty as keyof React.CSSProperties] = value;
+      }
+    });
+    
+    return styleObject;
+  };
+
   return (
     <div className="flex flex-col h-full bg-background">
       <div className="p-4 border-b border-border">
@@ -30,7 +46,7 @@ const PreviewPane = ({ content, previewStyle }: PreviewPaneProps) => {
           <div className="p-6">
             <div 
               style={{ 
-                cssText: previewStyle,
+                ...parseCssString(previewStyle),
                 transition: 'all 120ms ease-out'
               }}
               dangerouslySetInnerHTML={{ 
