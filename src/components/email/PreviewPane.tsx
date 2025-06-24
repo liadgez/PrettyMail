@@ -30,9 +30,7 @@ const PreviewPane = ({ content, previewStyle }: PreviewPaneProps) => {
     return DOMPurify.sanitize(formatted, {
       ALLOWED_TAGS: ['p', 'br', 'strong', 'em', 'u', 'span'],
       ALLOWED_ATTR: ['style'],
-      ALLOW_DATA_ATTR: false,
-      FORBID_SCRIPT: true,
-      FORBID_TAGS: ['script', 'object', 'embed', 'form', 'input']
+      ALLOW_DATA_ATTR: false
     });
   };
 

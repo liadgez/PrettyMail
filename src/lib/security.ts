@@ -8,10 +8,7 @@ export const sanitizeHtml = (html: string): string => {
   return DOMPurify.sanitize(html, {
     ALLOWED_TAGS: ['p', 'br', 'strong', 'em', 'u', 'span', 'div'],
     ALLOWED_ATTR: ['style', 'class'],
-    ALLOW_DATA_ATTR: false,
-    FORBID_SCRIPT: true,
-    FORBID_TAGS: ['script', 'object', 'embed', 'form', 'input', 'iframe'],
-    FORBID_ATTR: ['onerror', 'onload', 'onclick', 'onmouseover']
+    ALLOW_DATA_ATTR: false
   });
 };
 
