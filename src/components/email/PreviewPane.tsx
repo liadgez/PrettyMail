@@ -26,7 +26,7 @@ const PreviewPane = ({ content, previewStyle }: PreviewPaneProps) => {
       .map(paragraph => `<p>${paragraph.replace(/\n/g, '<br>')}</p>`)
       .join('');
     
-    // Sanitize HTML to prevent XSS attacks
+    // Sanitize HTML to prevent XSS attacks - using only valid DOMPurify options
     return DOMPurify.sanitize(formatted, {
       ALLOWED_TAGS: ['p', 'br', 'strong', 'em', 'u', 'span'],
       ALLOWED_ATTR: ['style'],
