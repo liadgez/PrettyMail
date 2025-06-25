@@ -1,15 +1,12 @@
 
-import React, { useRef, useEffect } from 'react';
-import { ScrollArea } from '@/components/ui/scroll-area';
+import React from 'react';
 import { SidebarProvider, SidebarInset, SidebarTrigger } from '@/components/ui/sidebar';
 import { Button } from '@/components/ui/button';
 import { Mail, Settings } from 'lucide-react';
 
-import ChatSidebar from './chat/ChatSidebar';
 import InputPane from './email/InputPane';
 import PreviewPane from './email/PreviewPane';
-import LayoutGallery from './email/LayoutGallery';
-import ModeSelector from './chat/ModeSelector';
+import LayoutSidebar from './email/LayoutSidebar';
 import { useEmailDrafter } from '@/hooks/useEmailDrafter';
 
 const EmailDrafterInterface = () => {
@@ -26,10 +23,6 @@ const EmailDrafterInterface = () => {
     getPreviewStyle
   } = useEmailDrafter();
 
-  const quickInsert = (text: string) => {
-    setInputContent(text);
-  };
-
   const handleCreateDraft = async () => {
     if (!inputContent.trim() || isCreatingDraft) return;
     await createGmailDraft();
@@ -38,7 +31,13 @@ const EmailDrafterInterface = () => {
   return (
     <SidebarProvider>
       <div className="flex min-h-screen w-full">
-        <ChatSidebar onQuickInsert={quickInsert} />
+        <LayoutSidebar
+          layouts={layoutStyles}
+          selectedLayout={selectedLayout}
+          onLayoutSelect={setSelectedLayout}
+          onLayoutHover={setHoveredLayout}
+          disabled={!inputContent.trim()}
+        />
         
         <SidebarInset>
           <div className="flex flex-col h-screen">
@@ -70,15 +69,6 @@ const EmailDrafterInterface = () => {
               />
             </div>
 
-            {/* Layout Gallery */}
-            <LayoutGallery
-              layouts={layoutStyles}
-              selectedLayout={selectedLayout}
-              onLayoutSelect={setSelectedLayout}
-              onLayoutHover={setHoveredLayout}
-              disabled={!inputContent.trim()}
-            />
-
             {/* Action Bar */}
             <div className="flex items-center justify-between p-4 border-t border-border bg-background">
               <div className="text-sm text-muted-foreground">
@@ -93,11 +83,6 @@ const EmailDrafterInterface = () => {
                 <Mail className="w-4 h-4" />
                 {isCreatingDraft ? 'Creating Draft...' : 'Create Gmail Draft'}
               </Button>
-            </div>
-
-            {/* Hidden Mode Selector for Future Use */}
-            <div className="hidden">
-              <ModeSelector currentMode="" onModeSelect={() => {}} />
             </div>
           </div>
         </SidebarInset>
