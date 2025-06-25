@@ -13,7 +13,7 @@ const PreviewPane = ({ content, previewStyle }: PreviewPaneProps) => {
   const MAX_CONTENT_LENGTH = 50000; // 50KB limit
 
   const formatContent = (text: string) => {
-    if (!text.trim()) return '<p style="color: #64748b; font-style: italic;">Your email preview will appear here...</p>';
+    if (!text.trim()) return '<p style="color: #64748b; font-style: italic;">Your beautifully formatted email will appear here...</p>';
     
     // Validate content length
     if (text.length > MAX_CONTENT_LENGTH) {
@@ -26,7 +26,7 @@ const PreviewPane = ({ content, previewStyle }: PreviewPaneProps) => {
       .map(paragraph => `<p>${paragraph.replace(/\n/g, '<br>')}</p>`)
       .join('');
     
-    // Sanitize HTML to prevent XSS attacks - using only valid DOMPurify options
+    // Sanitize HTML to prevent XSS attacks
     return DOMPurify.sanitize(formatted, {
       ALLOWED_TAGS: ['p', 'br', 'strong', 'em', 'u', 'span'],
       ALLOWED_ATTR: ['style'],
@@ -68,17 +68,19 @@ const PreviewPane = ({ content, previewStyle }: PreviewPaneProps) => {
 
   return (
     <div className="flex flex-col h-full bg-background">
-      <div className="p-4 border-b border-border">
-        <Label className="text-sm font-medium">Live Preview</Label>
+      <div className="p-6 border-b border-border/50">
+        <Label className="text-base font-semibold text-foreground">Live Preview</Label>
+        <p className="text-xs text-muted-foreground mt-1">See your email formatted in real-time</p>
       </div>
       
-      <div className="flex-1 p-4 overflow-auto">
-        <Card className="h-full min-h-96 bg-white border border-border/20 shadow-sm">
-          <div className="p-6">
+      <div className="flex-1 p-6 overflow-auto">
+        <Card className="h-full min-h-96 bg-white border border-border/20 shadow-apple">
+          <div className="p-8">
             <div 
               style={{ 
                 ...parseCssString(previewStyle),
-                transition: 'all 120ms ease-out'
+                transition: 'all 200ms ease-out',
+                fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
               }}
               dangerouslySetInnerHTML={{ 
                 __html: formatContent(content)

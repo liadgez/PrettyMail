@@ -15,36 +15,34 @@ const InputPane = ({ content, onContentChange }: InputPaneProps) => {
 
   const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const newContent = e.target.value;
-    
-    // Allow typing but warn when over limit
     onContentChange(newContent);
   };
 
   return (
-    <div className="flex flex-col h-full bg-card border-r border-border">
-      <div className="p-4 border-b border-border">
+    <div className="flex flex-col h-full bg-card">
+      <div className="p-6 border-b border-border/50">
         <div className="flex justify-between items-center">
-          <Label htmlFor="email-input" className="text-sm font-medium">
+          <Label htmlFor="email-input" className="text-base font-semibold text-card-foreground">
             Email Content
           </Label>
-          <div className={`text-xs ${isOverLimit ? 'text-red-500' : 'text-muted-foreground'}`}>
-            {characterCount.toLocaleString()}/{MAX_CONTENT_LENGTH.toLocaleString()} chars
+          <div className={`text-xs font-medium ${isOverLimit ? 'text-destructive' : 'text-muted-foreground'}`}>
+            {characterCount.toLocaleString()}/{MAX_CONTENT_LENGTH.toLocaleString()}
           </div>
         </div>
         {isOverLimit && (
-          <p className="text-xs text-red-500 mt-1">
+          <p className="text-xs text-destructive mt-2 font-medium">
             Content exceeds size limit. Preview may be disabled.
           </p>
         )}
       </div>
       
-      <div className="flex-1 p-4">
+      <div className="flex-1 p-6">
         <Textarea
           id="email-input"
-          placeholder="Paste or write your email content here..."
+          placeholder="Write your email content here... Start typing to see it formatted in real-time."
           value={content}
           onChange={handleContentChange}
-          className="h-full resize-none border-0 bg-transparent p-0 focus-visible:ring-0 text-base leading-relaxed"
+          className="h-full resize-none border-0 bg-transparent p-0 focus-visible:ring-0 text-base leading-relaxed placeholder:text-muted-foreground/60"
           style={{ minHeight: '100%' }}
         />
       </div>

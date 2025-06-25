@@ -30,7 +30,7 @@ const EmailDrafterInterface = () => {
 
   return (
     <SidebarProvider>
-      <div className="flex h-screen w-full overflow-hidden">
+      <div className="flex h-screen w-full overflow-hidden bg-background">
         <LayoutSidebar
           layouts={layoutStyles}
           selectedLayout={selectedLayout}
@@ -40,15 +40,15 @@ const EmailDrafterInterface = () => {
         />
         
         <SidebarInset className="flex-1 flex flex-col min-w-0">
-          {/* Header */}
-          <div className="flex items-center justify-between gap-3 p-4 border-b border-border bg-card/50 backdrop-blur-sm flex-shrink-0">
+          {/* Header with Apple-style blur */}
+          <div className="flex items-center justify-between gap-3 p-4 border-b border-border/50 bg-background/80 backdrop-blur-apple flex-shrink-0">
             <div className="flex items-center gap-3">
-              <SidebarTrigger />
+              <SidebarTrigger className="hover:bg-accent/80 transition-colors" />
               <Mail className="w-5 h-5 text-primary" />
-              <h1 className="text-lg font-semibold">The Gmail Drafter</h1>
+              <h1 className="text-lg font-semibold text-foreground">Gmail Drafter</h1>
             </div>
             
-            <Button variant="ghost" size="sm">
+            <Button variant="ghost" size="sm" className="hover:bg-accent/80 transition-colors">
               <Settings className="w-4 h-4" />
             </Button>
           </div>
@@ -56,7 +56,7 @@ const EmailDrafterInterface = () => {
           {/* Main Content Grid - Two column layout */}
           <div className="flex-1 grid grid-cols-2 min-h-0">
             {/* Input Pane - Left Column */}
-            <div className="border-r border-border">
+            <div className="border-r border-border/50">
               <InputPane 
                 content={inputContent}
                 onContentChange={setInputContent}
@@ -72,16 +72,16 @@ const EmailDrafterInterface = () => {
             </div>
           </div>
 
-          {/* Action Bar */}
-          <div className="flex items-center justify-between p-4 border-t border-border bg-background flex-shrink-0">
-            <div className="text-sm text-muted-foreground">
-              {inputContent.trim() ? `${inputContent.trim().split(' ').length} words` : 'Select a layout on the left and start typing your email content here...'}
+          {/* Action Bar with Apple-style styling */}
+          <div className="flex items-center justify-between p-4 border-t border-border/50 bg-background/80 backdrop-blur-apple flex-shrink-0">
+            <div className="text-sm text-muted-foreground font-medium">
+              {inputContent.trim() ? `${inputContent.trim().split(' ').length} words` : 'Select a layout and start typing...'}
             </div>
             
             <Button 
               onClick={handleCreateDraft}
               disabled={!inputContent.trim() || isCreatingDraft}
-              className="gap-2"
+              className="gap-2 bg-primary hover:bg-primary/90 text-primary-foreground shadow-apple transition-all duration-200 disabled:opacity-50"
             >
               <Mail className="w-4 h-4" />
               {isCreatingDraft ? 'Creating Draft...' : 'Create Gmail Draft'}

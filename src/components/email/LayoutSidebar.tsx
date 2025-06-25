@@ -38,18 +38,24 @@ const LayoutSidebar = ({
   disabled = false
 }: LayoutSidebarProps) => {
   return (
-    <Sidebar className="w-80">
-      <SidebarHeader>
-        <div className="flex items-center gap-2">
-          <Palette className="w-6 h-6 text-primary" />
-          <h1 className="text-xl font-semibold text-foreground">Email Layouts</h1>
+    <Sidebar className="w-80 bg-sidebar border-r border-sidebar-border/50">
+      <SidebarHeader className="p-6 border-b border-sidebar-border/50">
+        <div className="flex items-center gap-3">
+          <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+            <Palette className="w-4 h-4 text-primary" />
+          </div>
+          <div>
+            <h1 className="text-lg font-semibold text-sidebar-foreground">Email Layouts</h1>
+            <p className="text-sm text-sidebar-foreground/60">Choose your style</p>
+          </div>
         </div>
-        <p className="text-sm text-muted-foreground">Hover to preview, click to select</p>
       </SidebarHeader>
 
-      <SidebarContent>
+      <SidebarContent className="p-4">
         <SidebarGroup>
-          <SidebarGroupLabel>Available Layouts</SidebarGroupLabel>
+          <SidebarGroupLabel className="text-sidebar-foreground/60 text-xs font-medium uppercase tracking-wider mb-3">
+            Available Layouts
+          </SidebarGroupLabel>
           <SidebarGroupContent>
             <TooltipProvider>
               <div className="space-y-3 overflow-y-auto max-h-full pr-2">
@@ -57,33 +63,33 @@ const LayoutSidebar = ({
                   <Tooltip key={layout.id}>
                     <TooltipTrigger asChild>
                       <Card
-                        className={`w-full h-24 cursor-pointer transition-all duration-200 hover:shadow-md border-2 ${
+                        className={`w-full h-20 cursor-pointer transition-all duration-300 hover:shadow-apple border ${
                           selectedLayout === layout.id 
-                            ? 'border-primary bg-primary/5' 
-                            : 'border-border hover:border-primary/50'
+                            ? 'border-primary bg-primary/5 shadow-apple' 
+                            : 'border-sidebar-border hover:border-primary/50 hover:bg-sidebar-accent/50'
                         } ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
                         onMouseEnter={() => !disabled && onLayoutHover(layout.id)}
                         onMouseLeave={() => !disabled && onLayoutHover(null)}
                         onClick={() => !disabled && onLayoutSelect(layout.id)}
                       >
                         <div className="flex items-center h-full p-4 gap-3">
-                          <div className="flex items-center justify-center w-12 h-12 flex-shrink-0">
+                          <div className="flex items-center justify-center w-10 h-10 flex-shrink-0 rounded-lg bg-sidebar-accent">
                             {layout.thumbnail}
                           </div>
                           <div className="flex-1 min-w-0">
-                            <div className="text-sm font-medium leading-tight mb-1">
+                            <div className="text-sm font-medium leading-tight mb-1 text-sidebar-foreground">
                               {layout.name}
                             </div>
-                            <div className="text-xs text-muted-foreground leading-tight">
+                            <div className="text-xs text-sidebar-foreground/60 leading-tight line-clamp-2">
                               {layout.description}
                             </div>
                           </div>
                         </div>
                       </Card>
                     </TooltipTrigger>
-                    <TooltipContent side="right" className="max-w-64">
-                      <p className="text-sm font-medium">{layout.name}</p>
-                      <p className="text-xs text-muted-foreground">{layout.preview}</p>
+                    <TooltipContent side="right" className="max-w-64 bg-popover border border-border shadow-apple-lg">
+                      <p className="text-sm font-medium text-popover-foreground">{layout.name}</p>
+                      <p className="text-xs text-popover-foreground/60 mt-1">{layout.preview}</p>
                     </TooltipContent>
                   </Tooltip>
                 ))}
