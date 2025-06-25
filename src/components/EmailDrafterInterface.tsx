@@ -30,7 +30,7 @@ const EmailDrafterInterface = () => {
 
   return (
     <SidebarProvider>
-      <div className="flex min-h-screen w-full">
+      <div className="flex h-screen w-full overflow-hidden">
         <LayoutSidebar
           layouts={layoutStyles}
           selectedLayout={selectedLayout}
@@ -39,51 +39,53 @@ const EmailDrafterInterface = () => {
           disabled={!inputContent.trim()}
         />
         
-        <SidebarInset>
-          <div className="flex flex-col h-screen">
-            {/* Header */}
-            <div className="flex items-center justify-between gap-3 p-4 border-b border-border bg-card/50 backdrop-blur-sm">
-              <div className="flex items-center gap-3">
-                <SidebarTrigger />
-                <Mail className="w-5 h-5 text-primary" />
-                <h1 className="text-lg font-semibold">The Gmail Drafter</h1>
-              </div>
-              
-              <Button variant="ghost" size="sm">
-                <Settings className="w-4 h-4" />
-              </Button>
+        <SidebarInset className="flex-1 flex flex-col min-w-0">
+          {/* Header */}
+          <div className="flex items-center justify-between gap-3 p-4 border-b border-border bg-card/50 backdrop-blur-sm flex-shrink-0">
+            <div className="flex items-center gap-3">
+              <SidebarTrigger />
+              <Mail className="w-5 h-5 text-primary" />
+              <h1 className="text-lg font-semibold">The Gmail Drafter</h1>
             </div>
+            
+            <Button variant="ghost" size="sm">
+              <Settings className="w-4 h-4" />
+            </Button>
+          </div>
 
-            {/* Main Content Grid */}
-            <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 min-h-0">
-              {/* Input Pane */}
+          {/* Main Content Grid - Two column layout */}
+          <div className="flex-1 grid grid-cols-2 min-h-0">
+            {/* Input Pane - Left Column */}
+            <div className="border-r border-border">
               <InputPane 
                 content={inputContent}
                 onContentChange={setInputContent}
               />
-              
-              {/* Preview Pane */}
+            </div>
+            
+            {/* Preview Pane - Right Column */}
+            <div>
               <PreviewPane 
                 content={inputContent}
                 previewStyle={getPreviewStyle()}
               />
             </div>
+          </div>
 
-            {/* Action Bar */}
-            <div className="flex items-center justify-between p-4 border-t border-border bg-background">
-              <div className="text-sm text-muted-foreground">
-                {inputContent.trim() ? `${inputContent.trim().split(' ').length} words` : 'Start typing to enable layouts'}
-              </div>
-              
-              <Button 
-                onClick={handleCreateDraft}
-                disabled={!inputContent.trim() || isCreatingDraft}
-                className="gap-2"
-              >
-                <Mail className="w-4 h-4" />
-                {isCreatingDraft ? 'Creating Draft...' : 'Create Gmail Draft'}
-              </Button>
+          {/* Action Bar */}
+          <div className="flex items-center justify-between p-4 border-t border-border bg-background flex-shrink-0">
+            <div className="text-sm text-muted-foreground">
+              {inputContent.trim() ? `${inputContent.trim().split(' ').length} words` : 'Select a layout on the left and start typing your email content here...'}
             </div>
+            
+            <Button 
+              onClick={handleCreateDraft}
+              disabled={!inputContent.trim() || isCreatingDraft}
+              className="gap-2"
+            >
+              <Mail className="w-4 h-4" />
+              {isCreatingDraft ? 'Creating Draft...' : 'Create Gmail Draft'}
+            </Button>
           </div>
         </SidebarInset>
       </div>
