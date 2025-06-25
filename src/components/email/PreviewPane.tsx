@@ -13,7 +13,7 @@ const PreviewPane = ({ content, previewStyle }: PreviewPaneProps) => {
   const MAX_CONTENT_LENGTH = 50000; // 50KB limit
 
   const formatContent = (text: string) => {
-    if (!text.trim()) return '<p style="color: #9ca3af; font-style: italic;">Your beautifully formatted email will appear here...</p>';
+    if (!text.trim()) return '<p style="color: #9ca3af; font-style: italic;">Your email preview will appear below...</p>';
     
     // Validate content length
     if (text.length > MAX_CONTENT_LENGTH) {
@@ -69,8 +69,8 @@ const PreviewPane = ({ content, previewStyle }: PreviewPaneProps) => {
   return (
     <div className="flex flex-col h-full bg-[#2c2c2e]">
       <div className="p-6 border-b border-white/10">
-        <Label className="text-base font-medium text-white font-system">Live Preview</Label>
-        <p className="text-xs text-white/60 mt-1 font-system">See your email formatted in real-time</p>
+        <Label className="text-base font-medium text-white font-system">Preview</Label>
+        <p className="text-xs text-white/60 mt-1 font-system">Your email preview will appear below</p>
       </div>
       
       <div className="flex-1 p-6 overflow-auto">

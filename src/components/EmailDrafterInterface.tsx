@@ -53,18 +53,18 @@ const EmailDrafterInterface = () => {
             </Button>
           </div>
 
-          {/* Main Content Grid - Two column layout with proper spacing */}
-          <div className="flex-1 grid grid-cols-2 min-h-0 gap-0">
-            {/* Input Pane - Left Column */}
-            <div className="border-r border-white/10 bg-[#2c2c2e]">
+          {/* Main Content - Vertical Stack Layout */}
+          <div className="flex-1 flex flex-col min-h-0 overflow-hidden">
+            {/* Input Pane - Top Section */}
+            <div className="flex-1 min-h-0 bg-[#2c2c2e] border-b border-white/10">
               <InputPane 
                 content={inputContent}
                 onContentChange={setInputContent}
               />
             </div>
             
-            {/* Preview Pane - Right Column */}
-            <div className="bg-[#2c2c2e]">
+            {/* Preview Pane - Bottom Section */}
+            <div className="flex-1 min-h-0 bg-[#2c2c2e]">
               <PreviewPane 
                 content={inputContent}
                 previewStyle={getPreviewStyle()}

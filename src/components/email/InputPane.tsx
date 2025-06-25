@@ -23,7 +23,7 @@ const InputPane = ({ content, onContentChange }: InputPaneProps) => {
       <div className="p-6 border-b border-white/10">
         <div className="flex justify-between items-center">
           <Label htmlFor="email-input" className="text-base font-medium text-white font-system">
-            Content
+            Start writing your email here...
           </Label>
           <div className={`text-xs font-medium font-system ${isOverLimit ? 'text-red-400' : 'text-white/60'}`}>
             {characterCount.toLocaleString()}/{MAX_CONTENT_LENGTH.toLocaleString()}
