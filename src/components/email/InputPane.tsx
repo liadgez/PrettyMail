@@ -19,18 +19,18 @@ const InputPane = ({ content, onContentChange }: InputPaneProps) => {
   };
 
   return (
-    <div className="flex flex-col h-full bg-card">
-      <div className="p-6 border-b border-border/50">
+    <div className="flex flex-col h-full bg-[#2c2c2e]">
+      <div className="p-6 border-b border-white/10">
         <div className="flex justify-between items-center">
-          <Label htmlFor="email-input" className="text-base font-semibold text-card-foreground">
-            Email Content
+          <Label htmlFor="email-input" className="text-base font-medium text-white font-system">
+            Content
           </Label>
-          <div className={`text-xs font-medium ${isOverLimit ? 'text-destructive' : 'text-muted-foreground'}`}>
+          <div className={`text-xs font-medium font-system ${isOverLimit ? 'text-red-400' : 'text-white/60'}`}>
             {characterCount.toLocaleString()}/{MAX_CONTENT_LENGTH.toLocaleString()}
           </div>
         </div>
         {isOverLimit && (
-          <p className="text-xs text-destructive mt-2 font-medium">
+          <p className="text-xs text-red-400 mt-2 font-medium font-system">
             Content exceeds size limit. Preview may be disabled.
           </p>
         )}
@@ -39,10 +39,10 @@ const InputPane = ({ content, onContentChange }: InputPaneProps) => {
       <div className="flex-1 p-6">
         <Textarea
           id="email-input"
-          placeholder="Write your email content here... Start typing to see it formatted in real-time."
+          placeholder="Your email content here... Start typing to see it formatted in real-time."
           value={content}
           onChange={handleContentChange}
-          className="h-full resize-none border-0 bg-transparent p-0 focus-visible:ring-0 text-base leading-relaxed placeholder:text-muted-foreground/60"
+          className="h-full resize-none border-0 bg-transparent p-0 focus-visible:ring-0 text-base leading-relaxed placeholder:text-white/40 text-white font-system"
           style={{ minHeight: '100%' }}
         />
       </div>

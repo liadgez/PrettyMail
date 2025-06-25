@@ -13,11 +13,11 @@ const PreviewPane = ({ content, previewStyle }: PreviewPaneProps) => {
   const MAX_CONTENT_LENGTH = 50000; // 50KB limit
 
   const formatContent = (text: string) => {
-    if (!text.trim()) return '<p style="color: #64748b; font-style: italic;">Your beautifully formatted email will appear here...</p>';
+    if (!text.trim()) return '<p style="color: #9ca3af; font-style: italic;">Your beautifully formatted email will appear here...</p>';
     
     // Validate content length
     if (text.length > MAX_CONTENT_LENGTH) {
-      return '<p style="color: #ef4444; font-style: italic;">Content too long. Please reduce to under 50KB.</p>';
+      return '<p style="color: #f87171; font-style: italic;">Content too long. Please reduce to under 50KB.</p>';
     }
     
     // Simple paragraph formatting
@@ -67,20 +67,20 @@ const PreviewPane = ({ content, previewStyle }: PreviewPaneProps) => {
   };
 
   return (
-    <div className="flex flex-col h-full bg-background">
-      <div className="p-6 border-b border-border/50">
-        <Label className="text-base font-semibold text-foreground">Live Preview</Label>
-        <p className="text-xs text-muted-foreground mt-1">See your email formatted in real-time</p>
+    <div className="flex flex-col h-full bg-[#2c2c2e]">
+      <div className="p-6 border-b border-white/10">
+        <Label className="text-base font-medium text-white font-system">Live Preview</Label>
+        <p className="text-xs text-white/60 mt-1 font-system">See your email formatted in real-time</p>
       </div>
       
       <div className="flex-1 p-6 overflow-auto">
-        <Card className="h-full min-h-96 bg-white border border-border/20 shadow-apple">
+        <Card className="h-full min-h-96 bg-white border border-white/20 shadow-apple">
           <div className="p-8">
             <div 
               style={{ 
                 ...parseCssString(previewStyle),
                 transition: 'all 200ms ease-out',
-                fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
+                fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif'
               }}
               dangerouslySetInnerHTML={{ 
                 __html: formatContent(content)
