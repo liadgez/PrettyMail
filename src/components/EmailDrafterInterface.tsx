@@ -30,14 +30,14 @@ const EmailDrafterInterface = () => {
   return (
     <div className="flex flex-col h-screen w-full overflow-hidden bg-[#1e1e1e]">
       {/* Header with macOS-style blur */}
-      <div className="flex items-center justify-between gap-3 p-4 border-b border-white/10 bg-[#2c2c2e]/80 backdrop-blur-apple flex-shrink-0 h-[60px]">
+      <div className="flex items-center justify-between gap-4 px-6 py-4 border-b border-white/10 bg-[#2c2c2e]/80 backdrop-blur-apple flex-shrink-0 h-[72px]">
         <div className="flex items-center gap-3">
-          <Mail className="w-5 h-5 text-[#0a84ff]" />
-          <h1 className="text-lg font-medium text-white font-system">Gmail Drafter</h1>
+          <Mail className="w-6 h-6 text-[#0a84ff]" />
+          <h1 className="text-xl font-semibold text-white font-system">Gmail Drafter</h1>
         </div>
         
-        <Button variant="ghost" size="sm" className="hover:bg-white/10 transition-colors text-white">
-          <Settings className="w-4 h-4" />
+        <Button variant="ghost" size="sm" className="hover:bg-white/10 transition-colors text-white p-2">
+          <Settings className="w-5 h-5" />
         </Button>
       </div>
 
@@ -70,7 +70,7 @@ const EmailDrafterInterface = () => {
       </div>
 
       {/* Action Bar with macOS-style styling */}
-      <div className="flex items-center justify-between p-4 border-t border-white/10 bg-[#2c2c2e]/80 backdrop-blur-apple flex-shrink-0 h-[60px]">
+      <div className="flex items-center justify-between px-6 py-4 border-t border-white/10 bg-[#2c2c2e]/80 backdrop-blur-apple flex-shrink-0 h-[72px]">
         <div className="text-sm text-white/60 font-medium font-system">
           {inputContent.trim() ? `${inputContent.trim().split(' ').length} words` : 'Select a layout and start typing...'}
         </div>
@@ -78,7 +78,7 @@ const EmailDrafterInterface = () => {
         <Button 
           onClick={handleCreateDraft}
           disabled={!inputContent.trim() || isCreatingDraft}
-          className="gap-2 bg-[#0a84ff] hover:bg-[#0a84ff]/90 text-white shadow-apple transition-all duration-200 disabled:opacity-50 font-system"
+          className="gap-2 px-6 py-2.5 bg-[#0a84ff] hover:bg-[#0a84ff]/90 text-white shadow-apple transition-all duration-200 disabled:opacity-50 font-system"
         >
           <Mail className="w-4 h-4" />
           {isCreatingDraft ? 'Creating Draft...' : 'Create Gmail Draft'}

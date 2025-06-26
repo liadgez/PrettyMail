@@ -20,29 +20,29 @@ const InputPane = ({ content, onContentChange }: InputPaneProps) => {
 
   return (
     <div className="flex flex-col h-full bg-[#2c2c2e]">
-      <div className="p-6 border-b border-white/10">
-        <div className="flex justify-between items-center">
-          <Label htmlFor="email-input" className="text-base font-medium text-white font-system">
+      <div className="px-6 py-4 border-b border-white/10">
+        <div className="flex justify-between items-center mb-2">
+          <Label htmlFor="email-input" className="text-lg font-semibold text-white font-system">
             Start writing your email here...
           </Label>
-          <div className={`text-xs font-medium font-system ${isOverLimit ? 'text-red-400' : 'text-white/60'}`}>
+          <div className={`text-sm font-medium font-system ${isOverLimit ? 'text-red-400' : 'text-white/60'}`}>
             {characterCount.toLocaleString()}/{MAX_CONTENT_LENGTH.toLocaleString()}
           </div>
         </div>
         {isOverLimit && (
-          <p className="text-xs text-red-400 mt-2 font-medium font-system">
+          <p className="text-sm text-red-400 mt-2 font-medium font-system">
             Content exceeds size limit. Preview may be disabled.
           </p>
         )}
       </div>
       
-      <div className="flex-1 p-6">
+      <div className="flex-1 px-6 py-4">
         <Textarea
           id="email-input"
           placeholder="Your email content here... Start typing to see it formatted in real-time."
           value={content}
           onChange={handleContentChange}
-          className="h-full resize-none border-0 bg-transparent p-0 focus-visible:ring-0 text-base leading-relaxed placeholder:text-white/40 text-white font-system"
+          className="h-full resize-none border-0 bg-transparent p-4 focus-visible:ring-0 text-base leading-relaxed placeholder:text-white/40 text-white font-system rounded-md"
           style={{ minHeight: '100%' }}
         />
       </div>

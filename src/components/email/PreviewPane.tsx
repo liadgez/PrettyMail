@@ -68,9 +68,9 @@ const PreviewPane = ({ content, previewStyle }: PreviewPaneProps) => {
 
   return (
     <div className="flex flex-col h-full bg-[#2c2c2e]">
-      <div className="p-6 border-b border-white/10">
-        <Label className="text-base font-medium text-white font-system">Preview</Label>
-        <p className="text-xs text-white/60 mt-1 font-system">Your email preview will appear below</p>
+      <div className="px-6 py-4 border-b border-white/10">
+        <Label className="text-lg font-semibold text-white font-system">Preview</Label>
+        <p className="text-sm text-white/60 mt-1 font-system">Your email preview will appear below</p>
       </div>
       
       <div className="flex-1 p-6 overflow-auto">
