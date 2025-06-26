@@ -1,12 +1,11 @@
 
 import React from 'react';
-import { SidebarProvider, SidebarInset, SidebarTrigger } from '@/components/ui/sidebar';
 import { Button } from '@/components/ui/button';
 import { Mail, Settings } from 'lucide-react';
 
 import InputPane from './email/InputPane';
 import PreviewPane from './email/PreviewPane';
-import LayoutSidebar from './email/LayoutSidebar';
+import LayoutNavigation from './email/LayoutNavigation';
 import { useEmailDrafter } from '@/hooks/useEmailDrafter';
 
 const EmailDrafterInterface = () => {
@@ -29,9 +28,31 @@ const EmailDrafterInterface = () => {
   };
 
   return (
-    <SidebarProvider>
-      <div className="flex h-screen w-full overflow-hidden bg-[#1e1e1e]">
-        <LayoutSidebar
+    <div className="flex flex-col h-screen w-full overflow-hidden bg-[#1e1e1e]">
+      {/* Header with macOS-style blur */}
+      <div className="flex items-center justify-between gap-3 p-4 border-b border-white/10 bg-[#2c2c2e]/80 backdrop-blur-apple flex-shrink-0 h-[60px]">
+        <div className="flex items-center gap-3">
+          <Mail className="w-5 h-5 text-[#0a84ff]" />
+          <h1 className="text-lg font-medium text-white font-system">Gmail Drafter</h1>
+        </div>
+        
+        <Button variant="ghost" size="sm" className="hover:bg-white/10 transition-colors text-white">
+          <Settings className="w-4 h-4" />
+        </Button>
+      </div>
+
+      {/* Main Content Grid - Fixed Height Layout */}
+      <div className="flex-1 grid grid-rows-[35%_120px_1fr] min-h-0 overflow-hidden">
+        {/* Input Pane - Top Section (35%) */}
+        <div className="bg-[#2c2c2e] border-b border-white/10 min-h-0">
+          <InputPane 
+            content={inputContent}
+            onContentChange={setInputContent}
+          />
+        </div>
+        
+        {/* Layout Navigation - Middle Section (120px fixed) */}
+        <LayoutNavigation
           layouts={layoutStyles}
           selectedLayout={selectedLayout}
           onLayoutSelect={setSelectedLayout}
@@ -39,57 +60,31 @@ const EmailDrafterInterface = () => {
           disabled={!inputContent.trim()}
         />
         
-        <SidebarInset className="flex-1 flex flex-col min-w-0">
-          {/* Header with macOS-style blur */}
-          <div className="flex items-center justify-between gap-3 p-4 border-b border-white/10 bg-[#2c2c2e]/80 backdrop-blur-apple flex-shrink-0">
-            <div className="flex items-center gap-3">
-              <SidebarTrigger className="hover:bg-white/10 transition-colors text-white" />
-              <Mail className="w-5 h-5 text-[#0a84ff]" />
-              <h1 className="text-lg font-medium text-white font-system">Gmail Drafter</h1>
-            </div>
-            
-            <Button variant="ghost" size="sm" className="hover:bg-white/10 transition-colors text-white">
-              <Settings className="w-4 h-4" />
-            </Button>
-          </div>
-
-          {/* Main Content - Vertical Stack Layout */}
-          <div className="flex-1 flex flex-col min-h-0 overflow-hidden">
-            {/* Input Pane - Top Section */}
-            <div className="flex-1 min-h-0 bg-[#2c2c2e] border-b border-white/10">
-              <InputPane 
-                content={inputContent}
-                onContentChange={setInputContent}
-              />
-            </div>
-            
-            {/* Preview Pane - Bottom Section */}
-            <div className="flex-1 min-h-0 bg-[#2c2c2e]">
-              <PreviewPane 
-                content={inputContent}
-                previewStyle={getPreviewStyle()}
-              />
-            </div>
-          </div>
-
-          {/* Action Bar with macOS-style styling */}
-          <div className="flex items-center justify-between p-4 border-t border-white/10 bg-[#2c2c2e]/80 backdrop-blur-apple flex-shrink-0">
-            <div className="text-sm text-white/60 font-medium font-system">
-              {inputContent.trim() ? `${inputContent.trim().split(' ').length} words` : 'Select a layout and start typing...'}
-            </div>
-            
-            <Button 
-              onClick={handleCreateDraft}
-              disabled={!inputContent.trim() || isCreatingDraft}
-              className="gap-2 bg-[#0a84ff] hover:bg-[#0a84ff]/90 text-white shadow-apple transition-all duration-200 disabled:opacity-50 font-system"
-            >
-              <Mail className="w-4 h-4" />
-              {isCreatingDraft ? 'Creating Draft...' : 'Create Gmail Draft'}
-            </Button>
-          </div>
-        </SidebarInset>
+        {/* Preview Pane - Bottom Section (remaining space) */}
+        <div className="bg-[#2c2c2e] border-b border-white/10 min-h-0">
+          <PreviewPane 
+            content={inputContent}
+            previewStyle={getPreviewStyle()}
+          />
+        </div>
       </div>
-    </SidebarProvider>
+
+      {/* Action Bar with macOS-style styling */}
+      <div className="flex items-center justify-between p-4 border-t border-white/10 bg-[#2c2c2e]/80 backdrop-blur-apple flex-shrink-0 h-[60px]">
+        <div className="text-sm text-white/60 font-medium font-system">
+          {inputContent.trim() ? `${inputContent.trim().split(' ').length} words` : 'Select a layout and start typing...'}
+        </div>
+        
+        <Button 
+          onClick={handleCreateDraft}
+          disabled={!inputContent.trim() || isCreatingDraft}
+          className="gap-2 bg-[#0a84ff] hover:bg-[#0a84ff]/90 text-white shadow-apple transition-all duration-200 disabled:opacity-50 font-system"
+        >
+          <Mail className="w-4 h-4" />
+          {isCreatingDraft ? 'Creating Draft...' : 'Create Gmail Draft'}
+        </Button>
+      </div>
+    </div>
   );
 };
 
