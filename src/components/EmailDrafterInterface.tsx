@@ -41,8 +41,8 @@ const EmailDrafterInterface = () => {
         </Button>
       </div>
 
-      {/* Main Content Grid - Fixed Height Layout */}
-      <div className="flex-1 grid grid-rows-[35%_120px_1fr] min-h-0 overflow-hidden">
+      {/* Main Content Grid - Fixed Height Layout with proper spacing */}
+      <div className="flex-1 grid grid-rows-[35%_auto_1fr] min-h-0 overflow-hidden gap-0">
         {/* Input Pane - Top Section (35%) */}
         <div className="bg-[#2c2c2e] border-b border-white/10 min-h-0">
           <InputPane 
@@ -51,7 +51,7 @@ const EmailDrafterInterface = () => {
           />
         </div>
         
-        {/* Layout Navigation - Middle Section (120px fixed) */}
+        {/* Layout Navigation - Middle Section (auto height with margin) */}
         <LayoutNavigation
           layouts={layoutStyles}
           selectedLayout={selectedLayout}
@@ -61,7 +61,7 @@ const EmailDrafterInterface = () => {
         />
         
         {/* Preview Pane - Bottom Section (remaining space) */}
-        <div className="bg-[#2c2c2e] border-b border-white/10 min-h-0">
+        <div className="bg-[#2c2c2e] min-h-0">
           <PreviewPane 
             content={inputContent}
             previewStyle={getPreviewStyle()}

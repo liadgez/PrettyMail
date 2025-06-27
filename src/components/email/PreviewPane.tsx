@@ -67,20 +67,23 @@ const PreviewPane = ({ content, previewStyle }: PreviewPaneProps) => {
   };
 
   return (
-    <div className="flex flex-col h-full bg-[#2c2c2e]">
-      <div className="px-6 py-4 border-b border-white/10">
+    <div className="flex flex-col h-full bg-[#2c2c2e] border-t-2 border-[#0a84ff]/20">
+      <div className="px-6 py-4 border-b border-white/10 bg-gradient-to-r from-[#2c2c2e] to-[#2a2a2c]">
         <Label className="text-lg font-semibold text-white font-system">Preview</Label>
         <p className="text-sm text-white/60 mt-1 font-system">Your email preview will appear below</p>
       </div>
       
       <div className="flex-1 p-6 overflow-auto">
-        <Card className="h-full min-h-96 bg-white border border-white/20 shadow-apple">
-          <div className="p-8">
+        <Card className="h-full min-h-96 bg-white border-2 border-white/30 shadow-[0_8px_32px_rgba(0,0,0,0.3),0_2px_8px_rgba(0,0,0,0.2)] hover:shadow-[0_12px_40px_rgba(0,0,0,0.4),0_4px_12px_rgba(0,0,0,0.3)] transition-shadow duration-300">
+          <div className="p-8 relative">
+            <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent pointer-events-none rounded-lg"></div>
             <div 
               style={{ 
                 ...parseCssString(previewStyle),
                 transition: 'all 200ms ease-out',
-                fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif'
+                fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif',
+                position: 'relative',
+                zIndex: 1
               }}
               dangerouslySetInnerHTML={{ 
                 __html: formatContent(content)
