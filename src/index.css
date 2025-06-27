@@ -158,13 +158,22 @@
   background-color: rgba(255, 255, 255, 0.3);
 }
 
-/* Enhanced layout selection and interaction styles */
-.hover\:scale-102:hover {
+/* Constrained scaling for layout cards */
+.layout-card {
+  transform-origin: center;
+  will-change: transform;
+}
+
+.layout-card:hover {
   transform: scale(1.02);
 }
 
-.active\:scale-95:active {
-  transform: scale(0.95);
+.layout-card.selected {
+  transform: scale(1.02);
+}
+
+.layout-card:active {
+  transform: scale(0.98);
 }
 
 /* Smooth transitions for layout cards */
@@ -176,6 +185,20 @@
 /* Additional responsive utilities */
 @media (max-width: 768px) {
   .grid-rows-mobile {
-    grid-template-rows: 40% auto 1fr;
+    grid-template-rows: 40% 120px 1fr;
   }
+  
+  .layout-card {
+    min-width: 140px;
+  }
+  
+  .layout-card:hover {
+    transform: scale(1.01);
+  }
+}
+
+/* Ensure proper container boundaries */
+.layout-navigation-container {
+  contain: layout style;
+  overflow: hidden;
 }

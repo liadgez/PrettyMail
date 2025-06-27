@@ -30,7 +30,7 @@ const LayoutNavigation = ({
   disabled = false
 }: LayoutNavigationProps) => {
   return (
-    <div className="h-[120px] bg-[#2c2c2e] border-b border-white/10 flex-shrink-0 mb-6 shadow-lg">
+    <div className="h-full min-h-[140px] bg-[#2c2c2e] border-b border-white/10 flex-shrink-0 mb-6 shadow-lg overflow-hidden">
       <div className="flex items-center justify-between px-6 py-3 border-b border-white/10">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 rounded-full bg-[#0a84ff]/20 flex items-center justify-center">
@@ -43,18 +43,18 @@ const LayoutNavigation = ({
         </div>
       </div>
       
-      <div className="flex-1 px-6 py-4">
+      <div className="flex-1 px-6 py-4 max-h-full overflow-hidden">
         <TooltipProvider>
-          <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-white/20">
+          <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-white/20 items-center max-h-full">
             {layouts.map((layout) => (
               <Tooltip key={layout.id}>
                 <TooltipTrigger asChild>
                   <Card
-                    className={`min-w-[160px] h-16 cursor-pointer transition-all duration-300 border flex items-center gap-4 px-4 py-3 transform ${
+                    className={`min-w-[160px] h-16 cursor-pointer transition-all duration-300 border flex items-center gap-4 px-4 py-3 transform-gpu ${
                       selectedLayout === layout.id 
-                        ? 'border-[#0a84ff] bg-[#0a84ff]/15 shadow-[0_0_0_2px_rgba(10,132,255,0.3)] scale-105 ring-2 ring-[#0a84ff]/30' 
-                        : 'border-white/20 hover:border-[#0a84ff]/50 hover:bg-white/5 hover:scale-102 hover:shadow-apple'
-                    } ${disabled ? 'opacity-50 cursor-not-allowed' : ''} bg-[#2a2a2c] active:scale-95`}
+                        ? 'border-[#0a84ff] bg-[#0a84ff]/15 shadow-[0_0_0_2px_rgba(10,132,255,0.3),0_0_20px_rgba(10,132,255,0.4)] ring-2 ring-[#0a84ff]/30' 
+                        : 'border-white/20 hover:border-[#0a84ff]/50 hover:bg-white/5 hover:shadow-apple'
+                    } ${disabled ? 'opacity-50 cursor-not-allowed' : ''} bg-[#2a2a2c] active:scale-95 layout-card`}
                     onMouseEnter={() => !disabled && onLayoutHover(layout.id)}
                     onMouseLeave={() => !disabled && onLayoutHover(null)}
                     onClick={() => !disabled && onLayoutSelect(layout.id)}
