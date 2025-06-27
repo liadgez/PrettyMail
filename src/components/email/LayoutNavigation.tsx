@@ -30,7 +30,7 @@ const LayoutNavigation = ({
   disabled = false
 }: LayoutNavigationProps) => {
   return (
-    <div className="h-full min-h-[140px] bg-[#2c2c2e] border-b border-white/10 flex-shrink-0 mb-6 shadow-lg overflow-hidden">
+    <div className="h-full min-h-[140px] bg-[#2c2c2e] border-b border-white/10 flex-shrink-0 shadow-lg overflow-hidden">
       <div className="flex items-center justify-between px-6 py-3 border-b border-white/10">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 rounded-full bg-[#0a84ff]/20 flex items-center justify-center">
@@ -43,9 +43,9 @@ const LayoutNavigation = ({
         </div>
       </div>
       
-      <div className="flex-1 px-6 py-4 max-h-full overflow-hidden">
+      <div className="flex-1 px-6 py-6 max-h-full overflow-hidden">
         <TooltipProvider>
-          <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-white/20 items-center max-h-full">
+          <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-white/20 items-center max-h-full">
             {layouts.map((layout) => (
               <Tooltip key={layout.id}>
                 <TooltipTrigger asChild>
